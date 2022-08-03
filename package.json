@@ -8,8 +8,8 @@
   "license": "MIT",
   "scripts": {
     "frontend": "cd frontend && yarn start",
-	"backend": "cd backend && yarn start",
-	"installer": "yarn frontend && yarn backend"
+    "backend": "cd backend && yarn start",
+    "installer": "yarn frontend && yarn backend"
   },
   "devDependencies": {
     "@babel/core": "^7.18.10",
