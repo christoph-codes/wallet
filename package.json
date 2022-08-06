@@ -6,9 +6,11 @@
   "repository": "git@github.com:christoph-codes/wallet.git",
   "author": "Christopher Jones <tkcwebdev@gmail.com>",
   "license": "MIT",
+  "type": "module",
   "scripts": {
     "frontend": "cd frontend && yarn start",
-    "backend": "cd backend && yarn start",
+	"prebackend": "cd backend && yarn redis",
+    "backend": "cd backend && yarn dev",
     "installer": "yarn frontend && yarn backend"
   },
   "devDependencies": {
