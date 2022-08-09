@@ -1,5 +1,5 @@
 import express from 'express';
-import { createUser, testFunc } from '../../redis/functions/users.js';
+import { createUser, getUsers } from '../../redis/functions/users.js';
 const router = express.Router();
 
 router.post('/create', async (req, res) => {
@@ -21,12 +21,13 @@ router.post('/create', async (req, res) => {
 	}
 });
 
-router.get('/', (req, res) => {
+router.get('/', async (req, res) => {
 	try {
-		console.log(req.body);
-		res.send({ status: 'Users are healthy' });
+		const users = await getUsers();
+		console.log('createdUser: ', users);
+		res.status(200).send(users);
 	} catch (err) {
-		res.send({ status: 'Users are NOT healthy' });
+		res.status(401).send({ error: err });
 	}
 });
 
