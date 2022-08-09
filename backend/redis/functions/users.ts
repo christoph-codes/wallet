@@ -5,10 +5,6 @@ export interface ICreateUserArgs {
 	lname: string;
 	email: string;
 }
-
-export const testFunc = () => {
-	console.log('Hello');
-}
 	
 export const createUser = async ({ fname, lname, email }: ICreateUserArgs) => {
 	console.log('Grabbing User', { fname, lname, email });
@@ -25,4 +21,9 @@ export const createUser = async ({ fname, lname, email }: ICreateUserArgs) => {
 	return created;
 };
 
-export default createUser;
+export const getUsers = async () => {
+	const users = await userRepository.search().return.all();
+	console.log('fn gettingUsers: ', users);
+	return users;
+}
+export default { createUser, getUsers };
