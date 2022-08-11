@@ -15,7 +15,7 @@
   "scripts": {
     "dev": "cd src && nodemon index.ts",
     "start": "tsc && node dist/app.js",
-	"redis": "redis-server"
+	"redis": "redis-stack-server"
   },
   "devDependencies": {
     "typescript": "^4.7.4"
