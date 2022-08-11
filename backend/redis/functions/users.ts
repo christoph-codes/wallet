@@ -30,4 +30,10 @@ export const getUser = async (userId: string) => {
 	console.log('fn gettingUsers: ', user);
 	return user;
 }
+
+export const deleteUser = async (userId: string) => {
+	const deletedUser = await userRepository.remove(userId);
+	console.log('fn gettingUsers: ', deletedUser);
+	return deletedUser;
+}
 export default { createUser, getUsers };
