@@ -1,5 +1,5 @@
 import express from 'express';
-import { createUser, getUsers, getUser, deleteUser } from '../../redis/functions/users.js';
+import { createUser, getUsers, getUser, deleteUser, updateUser } from '../../redis/functions/users.js';
 const router = express.Router();
 
 router.post('/create', async (req, res) => {
@@ -50,6 +50,21 @@ router.post('/remove', async (req, res) => {
 			res.status(200).send({ success: true});
 		}).catch((err) => {
 			console.log('delete user err:', err);
+			res.status(401).send({ error: err });
+		});
+});
+router.post('/update', async (req, res) => {
+	console.log('fire');
+	const { userId, updatedUser } = req.body;
+	if (!userId || !updatedUser) {
+		res.status(401).send({ error: 'You must provide a valid id and updated user object to update this user.'})
+	};
+	await updateUser(userId, updatedUser)
+		.then(response => {
+			console.log('update User Response:', response);
+			res.status(200).send({ updatedUserId: response});
+		}).catch((err) => {
+			console.log('update user err:', err);
 			res.status(401).send({ error: err });
 		});
 });
