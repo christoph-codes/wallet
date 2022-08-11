@@ -1,4 +1,5 @@
 import { userRepository } from "../repositories/index.js";
+import { IUser } from "../schema/types/user.js";
 
 export interface ICreateUserArgs {
 	fname: string;
@@ -17,6 +18,17 @@ export const createUser = async ({ fname, lname, email }: ICreateUserArgs) => {
 	});
 	console.log('created:', created);
 	return created;
+};
+
+export const updateUser = async (userId: string, updatedUser: IUser) => {
+	const user = await userRepository.fetch(userId);
+	Object.entries(updatedUser).forEach(item => {
+		user[item[0]] = item[1];
+	})
+	console.log('user', user);
+	const id = await userRepository.save(user);
+	console.log('created:', id);
+	return id;
 };
 
 export const getUsers = async () => {
