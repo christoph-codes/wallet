@@ -24,4 +24,10 @@ export const getUsers = async () => {
 	console.log('fn gettingUsers: ', users);
 	return users;
 }
+
+export const getUser = async (userId: string) => {
+	const user = await userRepository.fetch(userId);
+	console.log('fn gettingUsers: ', user);
+	return user;
+}
 export default { createUser, getUsers };
