@@ -1,9 +1,9 @@
-import { SchemaDefinition } from "redis-om";
+import { Entity, SchemaDefinition } from "redis-om";
 
-export interface User {
-	fname: string;
-	lname: string;
-	email: string;
+export interface IUser extends Entity {
+	fname?: string;
+	lname?: string;
+	email?: string;
 	dob?: Date;
 	totalCredit?: number;
 	totalBalance?: number;
