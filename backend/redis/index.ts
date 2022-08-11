@@ -1,11 +1,12 @@
-import { createClient } from 'redis'
-import { Client } from 'redis-om'
+import { createClient } from 'redis';
+import { Client } from 'redis-om';
 
-const redis = createClient({url: process.env.redisURL});
-await redis.connect()
-const client = await new Client().use(redis);
+/* pulls the Redis URL from .env */
+const url = process.env.NODE === 'development' ? process.env.REDIS_URL : 'redis://localhost:6379';
 
-// await redis.set('foo', 'bar')
-// const value = await client.execute(['GET', 'foo'])
+console.log('url', url);
+
+/* create and open the Redis OM Client */
+const client = await new Client().open(url)
 
 export default client;
