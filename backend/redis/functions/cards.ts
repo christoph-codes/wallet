@@ -1,7 +1,13 @@
 import { ICard } from './../schema/types/creditCard';
 import { creditCardRepository, userRepository } from "../repositories/index.js";
-import { IUser } from "../schema/types/user.js";
+import client from '../index.js';
 
+/**
+ * Add card to redis function
+ * @param card The keys based on the CreditCard schema in an object
+ * @param userId Custom user id saved by the client
+ * @returns The created credit card and adds the generated card it do the loggedin user.
+ */
 export const addCard = async (card: ICard, userId: string) => {
 	console.log('adding card');
 	if (!userId) {
@@ -33,31 +39,71 @@ export const addCard = async (card: ICard, userId: string) => {
 	return created;
 };
 
-export const updateCard = async (userId: string, updatedUser: IUser) => {
-	const user = await creditCardRepository.fetch(userId);
-	Object.entries(updatedUser).forEach(item => {
-		user[item[0]] = item[1];
+/**
+ * Update card to redis function
+ * @param updatedCard The keys based on the CreditCard schema in an object to be updated
+ * @param cardId Custom user id saved by the client
+ * @returns The updated credit card.
+ */
+export const updateCard = async (cardId: string, updatedCard: ICard) => {
+	const card = await creditCardRepository.fetch(cardId);
+	Object.entries(updatedCard).forEach(item => {
+		card[item[0]] = item[1];
 	})
-	console.log('user', user);
-	const id = await creditCardRepository.save(user);
-	console.log('created:', id);
+	const id = await creditCardRepository.save(card);
 	return id;
 };
 
-export const getUsersCards = async () => {
-	const users = await creditCardRepository.search().return.all();
-	console.log('fn gettingUsers: ', users);
-	return users;
+/**
+ * Get a users card from the redis database
+ * @param userId Custom user id saved by the client
+ * @returns an array of credit cards associated to the users account.
+ */
+export const getUsersCards = async (userId: string) => {
+	const user = await userRepository.fetch(userId); 
+	
+	if ((user.cards.length || 0) < 1) {
+		return [];
+	}
+	const cards = user.cards?.map(async cardId => {
+		return await creditCardRepository.fetch(cardId);
+	});
+	return await Promise.all(cards);
 }
 
-export const getCard = async (userId: string) => {
-	const user = await creditCardRepository.fetch(userId);
-	console.log('fn gettingUsers: ', user);
-	return user;
+/**
+ * Get a single card from the redis database
+ * @param userId Custom user id saved by the client
+ * @returns a single credit card associated to a users account.
+ */
+export const getCard = async (cardId: string, userId: string) => {
+	const user = await userRepository.fetch(userId);
+	const exists = await client.execute(['EXISTS', `User:${userId}`]);
+	if (!exists) {
+		throw new Error('This user does not exist');
+	}
+	if (!user?.cards?.includes(cardId)) {
+		throw new Error('This user does not have access to this card');
+	}
+	const card = await creditCardRepository.fetch(cardId);
+	return card;
 }
 
-export const deleteCard = async (userId: string) => {
-	const deletedUser = await creditCardRepository.remove(userId);
-	console.log('fn gettingUsers: ', deletedUser);
-	return deletedUser;
+/**
+ * Delete a single card from the redis database
+ * @param userId Custom user id saved by the client
+ * @returns a success object once deleted.
+ */
+export const deleteCard = async (cardId: string, userId: string) => {
+	const user = await userRepository.fetch(userId);
+	const exists = await client.execute(['EXISTS', `User:${userId}`]);
+	if (!exists) {
+		throw new Error('This user does not exist');
+	}
+	if (!user.cards.includes(cardId)) {
+		throw new Error('This user does not have access to this card');
+	}
+	const deletedCard = await creditCardRepository.remove(cardId);
+
+	return deletedCard;
 }

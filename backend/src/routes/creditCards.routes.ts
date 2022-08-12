@@ -4,53 +4,55 @@ const router = express.Router();
 
 router.post('/add', async (req, res) => {
 	const { card, userId } = req.body;
+	if (!userId) {
+		res.status(403).send({
+			message: 'You are not authorized to create an account with this user information.',
+		})
+	}
 	if (!card) {
 		res.status(401).send({
 			message: 'You must enter valid card data to add a new card.'
 		})
 	}
 	try {
-		const addedCard = await addCard(card,userId);
+		const addedCard = await addCard(card, userId);
 		res.send({ successful: addedCard});
 	} catch (err) {
-		res.send({ status: 'Cards are NOT healthy' });
+		res.send({ error: err.toString() });
 	}
 });
 
 router.get('/', async (req, res) => {
-	await getUsersCards()
+	const { userId } = req.body;
+	await getUsersCards(userId)
 		.then(response => {
-			console.log('resp', response);
 			res.status(200).send(response);
 		}).catch((err) => {
 			console.log('get cards err:', err);
-			res.status(401).send({ error: err });
+			res.status(401).send({ error: err.toString() });
 		});
 });
-router.get('/:cardId', async (req, res) => {
-	const { cardId } = req.params;
-	await getCard(cardId)
+router.get('/get', async (req, res) => {
+	const { cardId, userId } = req.body;
+	await getCard(cardId, userId)
 		.then(response => {
-			console.log('get Card Response:', response);
 			res.status(200).send(response);
 		}).catch((err) => {
-			console.log('get Card err:', err);
-			res.status(401).send({ error: err });
+			console.log('err', err);
+			res.status(400).send({ error: err.toString() });
 		});
 });
 router.post('/remove', async (req, res) => {
-	const { cardId } = req.body;
-	await deleteCard(cardId)
+	const { cardId, userId } = req.body;
+	await deleteCard(cardId, userId)
 		.then(response => {
-			console.log('delete Card Response:', response);
-			res.status(200).send({ success: true});
+			console.log('response', response);
+			res.status(200).send({ success: true });
 		}).catch((err) => {
-			console.log('delete card err:', err);
-			res.status(401).send({ error: err });
+			res.status(401).send({ error:err.toString() });
 		});
 });
 router.post('/update', async (req, res) => {
-	console.log('fire');
 	const { cardId, updatedCard } = req.body;
 	if (!cardId || !updatedCard) {
 		res.status(401).send({ error: 'You must provide a valid id and updated Card object to update this Card.'})
@@ -61,7 +63,7 @@ router.post('/update', async (req, res) => {
 			res.status(200).send({ updatedCardId: response});
 		}).catch((err) => {
 			console.log('update Card err:', err);
-			res.status(401).send({ error: err });
+			res.status(401).send({error: err.toString() });
 		});
 });
 export default router;
