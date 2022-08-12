@@ -15,6 +15,7 @@ export const createUser = async ({ fname, lname, email }: ICreateUserArgs) => {
 		fname,
 		lname,
 		email,
+		cards: []
 	});
 	console.log('created:', created);
 	return created;

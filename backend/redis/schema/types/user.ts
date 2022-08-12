@@ -7,6 +7,7 @@ export interface IUser extends Entity {
 	dob?: Date;
 	totalCredit?: number;
 	totalBalance?: number;
+	cards?: string[];
 }
 
 export const userType: SchemaDefinition = {
@@ -15,5 +16,6 @@ export const userType: SchemaDefinition = {
 	email: { type: 'string'},
 	dob: { type: 'date' },
 	totalCredit: { type: 'number' },
-	totalBalance: { type: 'number'},
+	totalBalance: { type: 'number' },
+	cards: { type: 'string[]'}
   };
