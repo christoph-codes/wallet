@@ -1,4 +1,3 @@
-import { createClient } from 'redis';
 import { Client } from 'redis-om';
 
 /* pulls the Redis URL from .env */
