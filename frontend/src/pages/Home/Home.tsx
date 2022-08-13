@@ -1,7 +1,9 @@
+import { auth } from "../../config/firebase";
 import logo from "../../logo.svg";
 import "./Home.scss";
 
 const Home = () => {
+	console.log(auth);
 	return (
 		<div className="App">
 			<header className="App-header">
