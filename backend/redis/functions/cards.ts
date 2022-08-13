@@ -42,7 +42,7 @@ export const addCard = async (card: ICard, userId: string) => {
 /**
  * Update card to redis function
  * @param updatedCard The keys based on the CreditCard schema in an object to be updated
- * @param cardId Custom user id saved by the client
+ * @param cardId Custom card id sent by the client
  * @returns The updated credit card.
  */
 export const updateCard = async (cardId: string, updatedCard: ICard) => {
@@ -74,6 +74,7 @@ export const getUsersCards = async (userId: string) => {
 /**
  * Get a single card from the redis database
  * @param userId Custom user id saved by the client
+ * @param cardId Custom card id sent by the client
  * @returns a single credit card associated to a users account.
  */
 export const getCard = async (cardId: string, userId: string) => {
