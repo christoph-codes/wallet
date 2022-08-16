@@ -10,10 +10,12 @@
     "@types/node": "^18.7.2",
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",
+    "@types/react-helmet": "^6.1.5",
     "axios": "^0.27.2",
     "firebase": "^9.9.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-helmet": "^6.1.0",
     "react-router-dom": "6",
     "react-scripts": "5.0.1",
     "sass": "^1.54.1",
@@ -25,7 +27,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-	"emu": "firebase emulators:start"
+    "emu": "firebase emulators:start"
   },
   "eslintConfig": {
     "extends": [
