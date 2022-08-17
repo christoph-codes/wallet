@@ -3,22 +3,23 @@ import { useAuth } from "../../providers/AuthProvider";
 import Page from "../../templates/Page";
 
 const CreateAccount = () => {
-	const { login } = useAuth();
+	const { createAccount, user } = useAuth();
 	const [error, setError] = useState("");
 	const submitLogin = (e: ChangeEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		const form: FormData = new FormData(e.target);
-		const formData = Object.fromEntries(form.entries());
+		const form = new FormData(e.target);
+		const formData: any = Object.fromEntries(form.entries());
 		if (!formData.email || !formData.password) {
 			setError("You must fill out all required fields.");
 		} else {
-			login && login(formData.email, formData.password);
+			createAccount && createAccount(formData);
 			setError("");
 			e.target.reset();
 		}
 	};
 	return (
 		<Page className="CreateAccount">
+			<h2>Logged in user: {user?.fname}</h2>
 			<form onSubmit={submitLogin}>
 				{error && <p>{error}</p>}
 				<input type="text" name="fname" placeholder="John" />
