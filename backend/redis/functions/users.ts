@@ -5,13 +5,15 @@ export interface ICreateUserArgs {
 	fname: string;
 	lname: string;
 	email: string;
+	uid?: string;
 }
 	
-export const createUser = async ({ fname, lname, email }: ICreateUserArgs) => {
+export const createUser = async ({ fname, lname, email, uid }: ICreateUserArgs) => {
 	if (!fname && !lname && !email) {
 		throw new Error('You must prrovide a first name, last name, and email to create an account.');
 	}
 	const created = await userRepository.createAndSave({
+		authId: uid,
 		fname,
 		lname,
 		email,
@@ -38,9 +40,9 @@ export const getUsers = async () => {
 	return users;
 }
 
-export const getUser = async (userId: string) => {
-	const user = await userRepository.fetch(userId);
-	console.log('fn gettingUsers: ', user);
+export const getUser = async (authId: string) => {
+	const user = await userRepository.search().where('authId').equals(authId).return.all();
+	console.log('user: ', user);
 	return user;
 }
 
