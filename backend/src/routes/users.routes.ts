@@ -31,9 +31,9 @@ router.get('/', async (req, res) => {
 			res.status(401).send({ error: err });
 		});
 });
-router.get('/:userId', async (req, res) => {
-	const { userId } = req.params;
-	await getUser(userId)
+router.post('/get', async (req, res) => {
+	const { authId } = req.body;
+	await getUser(authId)
 		.then(response => {
 			console.log('get User Response:', response);
 			res.status(200).send(response);
