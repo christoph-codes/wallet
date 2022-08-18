@@ -1,6 +1,7 @@
 import {
 	createUserWithEmailAndPassword,
 	signInWithEmailAndPassword,
+	signOut,
 } from "firebase/auth";
 import {
 	createContext,
@@ -9,7 +10,7 @@ import {
 	ReactNode,
 	useEffect,
 } from "react";
-import { Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { auth } from "../config/firebase";
 import { db } from "../config/server";
 import { clearItem, getWithExpiry, setWithExpiry } from "../utils/helpers";
@@ -52,8 +53,10 @@ const AuthContext = createContext<IAuthContext>({
 });
 
 const AuthProvider = ({ children }: IAuthProvider) => {
+	const navigate = useNavigate();
 	const [user, setUser] = useState(() => {
 		const localUser = getWithExpiry("wallet_user");
+		console.log("localuser:", localUser);
 		return (
 			localUser || {
 				fname: "",
@@ -75,7 +78,8 @@ const AuthProvider = ({ children }: IAuthProvider) => {
 				if (firebaseUser) {
 					db.post(`/users/get`, { authId: firebaseUser?.uid })
 						.then((redisUser) => {
-							setUser(redisUser.data);
+							console.log("redisUser:", redisUser.data);
+							setUser(redisUser.data[0]);
 						})
 						.catch((err) => {
 							throw new Error(err);
@@ -106,8 +110,9 @@ const AuthProvider = ({ children }: IAuthProvider) => {
 					console.log("firebaseUser", firebaseUser);
 					db.post(`/users/get`, { authId: firebaseUser?.user?.uid })
 						.then((user) => {
+							console.log("login user:", user.data);
 							if (user) {
-								setUser(user.data);
+								setUser(user.data[0]);
 							}
 						})
 						.catch((err) => {
@@ -154,13 +159,23 @@ const AuthProvider = ({ children }: IAuthProvider) => {
 	};
 
 	const logout = () => {
-		console.log("logging out this user:", user);
-		clearItem("wallet_user");
+		signOut(auth)
+			.then((response) => {
+				console.log("logging out this user:", response);
+				clearItem("wallet_user");
+				setUser({
+					fname: "",
+					lname: "",
+					email: "",
+					authId: "",
+					cards: [],
+				});
+				navigate("/login");
+			})
+			.catch((error) => {
+				throw new Error(error);
+			});
 	};
-
-	if (user?.authId) {
-		return <Navigate to="/login" />;
-	}
 
 	return (
 		<AuthContext.Provider value={{ user, login, createAccount, logout }}>
