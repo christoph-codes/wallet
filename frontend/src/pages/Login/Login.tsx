@@ -1,10 +1,8 @@
 import { ChangeEvent, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../providers/AuthProvider";
 import Page from "../../templates/Page";
 
 const Login = () => {
-	const navigate = useNavigate();
 	const { login, user } = useAuth();
 	const [error, setError] = useState("");
 	const submitLogin = (e: ChangeEvent<HTMLFormElement>) => {
