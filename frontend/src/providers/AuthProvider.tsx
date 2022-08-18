@@ -56,7 +56,6 @@ const AuthProvider = ({ children }: IAuthProvider) => {
 	const navigate = useNavigate();
 	const [user, setUser] = useState(() => {
 		const localUser = getWithExpiry("wallet_user");
-		console.log("localuser:", localUser);
 		return (
 			localUser || {
 				fname: "",
@@ -78,7 +77,6 @@ const AuthProvider = ({ children }: IAuthProvider) => {
 				if (firebaseUser) {
 					db.post(`/users/get`, { authId: firebaseUser?.uid })
 						.then((redisUser) => {
-							console.log("redisUser:", redisUser.data);
 							setUser(redisUser.data[0]);
 						})
 						.catch((err) => {
@@ -94,7 +92,7 @@ const AuthProvider = ({ children }: IAuthProvider) => {
 					});
 				}
 			});
-	}, []);
+	}, [user.authId]);
 
 	/**
 	 * ### Login Function
@@ -103,16 +101,14 @@ const AuthProvider = ({ children }: IAuthProvider) => {
 	 * @param password a secret `string` that is associated with the users account
 	 */
 	const login = (email: string, password: string) => {
-		console.log("creds", email, password);
 		signInWithEmailAndPassword(auth, email, password).then(
 			(firebaseUser) => {
 				if (firebaseUser) {
-					console.log("firebaseUser", firebaseUser);
 					db.post(`/users/get`, { authId: firebaseUser?.user?.uid })
 						.then((user) => {
-							console.log("login user:", user.data);
 							if (user) {
 								setUser(user.data[0]);
+								navigate("/dashboard");
 							}
 						})
 						.catch((err) => {
