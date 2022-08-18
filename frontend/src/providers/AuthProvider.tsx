@@ -1,4 +1,8 @@
-import { UserInfo } from "firebase/auth";
+import {
+	createUserWithEmailAndPassword,
+	signInWithEmailAndPassword,
+	signOut,
+} from "firebase/auth";
 import {
 	createContext,
 	useContext,
@@ -6,16 +10,28 @@ import {
 	ReactNode,
 	useEffect,
 } from "react";
+import { useNavigate } from "react-router-dom";
 import { auth } from "../config/firebase";
+import { db } from "../config/server";
+import { clearItem, getWithExpiry, setWithExpiry } from "../utils/helpers";
 
-export interface IUser extends UserInfo {
+export interface ICreateAccountArgs {
+	fname: string;
+	lname: string;
+	email: string;
+	password: string;
+}
+export interface IUser {
 	fname?: string;
 	lname?: string;
+	email?: string;
+	authId?: string;
 	cards?: string[];
 }
 
 export interface IAuthContext {
-	login?: (email: FormDataEntryValue, password: FormDataEntryValue) => void;
+	createAccount?: (user: ICreateAccountArgs) => void;
+	login?: (email: string, password: string) => void;
 	logout?: () => void;
 	user?: IUser;
 }
@@ -24,46 +40,59 @@ export interface IAuthProvider {
 }
 
 const AuthContext = createContext<IAuthContext>({
+	createAccount: () => {},
 	login: () => {},
 	logout: () => {},
 	user: {
-		uid: "",
 		fname: "",
 		lname: "",
-		cards: [],
-		displayName: "",
 		email: "",
-		phoneNumber: "",
-		photoURL: "",
-		providerId: "",
+		authId: "",
+		cards: [],
 	},
 });
 
 const AuthProvider = ({ children }: IAuthProvider) => {
+	const navigate = useNavigate();
 	const [user, setUser] = useState(() => {
-		console.log("current user: ", auth.currentUser);
-		return auth.currentUser
-			? auth.currentUser
-			: {
-					uid: "",
-					fname: "",
-					lname: "",
-					cards: [],
-					displayName: "",
-					email: "",
-					phoneNumber: "",
-					photoURL: "",
-					providerId: "",
-			  };
+		const localUser = getWithExpiry("wallet_user");
+		return (
+			localUser || {
+				fname: "",
+				lname: "",
+				email: "",
+				authId: "",
+				cards: [],
+			}
+		);
 	});
 
 	useEffect(() => {
-		auth.onAuthStateChanged((firebaseUser) => {
-			if (firebaseUser) {
-				setUser(firebaseUser);
-			}
-		});
-	}, []);
+		setWithExpiry("wallet_user", user, 3600000);
+	}, [user]);
+
+	useEffect(() => {
+		if (!user.authId)
+			auth.onAuthStateChanged((firebaseUser) => {
+				if (firebaseUser) {
+					db.post(`/users/get`, { authId: firebaseUser?.uid })
+						.then((redisUser) => {
+							setUser(redisUser.data[0]);
+						})
+						.catch((err) => {
+							throw new Error(err);
+						});
+				} else {
+					setUser({
+						fname: "",
+						lname: "",
+						email: "",
+						authId: "",
+						cards: [],
+					});
+				}
+			});
+	}, [user.authId]);
 
 	/**
 	 * ### Login Function
@@ -71,16 +100,81 @@ const AuthProvider = ({ children }: IAuthProvider) => {
 	 * @param email `string` in email format associated with the users account
 	 * @param password a secret `string` that is associated with the users account
 	 */
-	const login = (email: FormDataEntryValue, password: FormDataEntryValue) => {
-		console.log("creds", email, password);
+	const login = (email: string, password: string) => {
+		signInWithEmailAndPassword(auth, email, password).then(
+			(firebaseUser) => {
+				if (firebaseUser) {
+					db.post(`/users/get`, { authId: firebaseUser?.user?.uid })
+						.then((user) => {
+							if (user) {
+								setUser(user.data[0]);
+								navigate("/dashboard");
+							}
+						})
+						.catch((err) => {
+							console.log("err", err);
+						});
+				}
+			}
+		);
+	};
+
+	const createAccount = (user: ICreateAccountArgs) => {
+		const { fname, lname, email, password } = user;
+		if (!fname || !lname || !email || !password) {
+			throw new Error(
+				"You must provide valid credentials to create an account"
+			);
+		}
+		createUserWithEmailAndPassword(auth, email, password)
+			.then(async (response) => {
+				console.log("response:", response);
+				console.log("user:", user);
+				await db
+					.post("/users/create", {
+						user: {
+							fname: user.fname,
+							lname: user.lname,
+							email: response.user.email,
+							uid: response.user.uid,
+						},
+					})
+					.then((redisUser) => {
+						console.log("redisUser:", redisUser.data);
+						setUser(redisUser.data);
+					})
+					.catch((err) => {
+						console.log("failed db user create", err.code);
+						throw new Error(err);
+					});
+			})
+			.catch((error) => {
+				console.log("firebase create account error", error);
+				throw new Error(error.code);
+			});
 	};
 
 	const logout = () => {
-		console.log("logging out this user:", user);
+		signOut(auth)
+			.then((response) => {
+				console.log("logging out this user:", response);
+				clearItem("wallet_user");
+				setUser({
+					fname: "",
+					lname: "",
+					email: "",
+					authId: "",
+					cards: [],
+				});
+				navigate("/login");
+			})
+			.catch((error) => {
+				throw new Error(error);
+			});
 	};
 
 	return (
-		<AuthContext.Provider value={{ user, login, logout }}>
+		<AuthContext.Provider value={{ user, login, createAccount, logout }}>
 			{children}
 		</AuthContext.Provider>
 	);
