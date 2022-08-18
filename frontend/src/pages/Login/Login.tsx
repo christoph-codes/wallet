@@ -19,21 +19,22 @@ const Login = () => {
 			e.target.reset();
 		}
 	};
-	if (user?.authId) {
-		navigate("/dashboard");
-	}
 	return (
 		<Page className="Login">
-			<form onSubmit={submitLogin}>
-				{error && <p>{error}</p>}
-				<input name="email" placeholder="john@doe.com" />
-				<input
-					name="password"
-					type="password"
-					placeholder="john@doe.com"
-				/>
-				<button type="submit">Login</button>
-			</form>
+			{!user?.authId ? (
+				<form onSubmit={submitLogin}>
+					{error && <p>{error}</p>}
+					<input name="email" placeholder="john@doe.com" />
+					<input
+						name="password"
+						type="password"
+						placeholder="john@doe.com"
+					/>
+					<button type="submit">Login</button>
+				</form>
+			) : (
+				<a href="/dashboard">Head to Dashboard</a>
+			)}
 		</Page>
 	);
 };
