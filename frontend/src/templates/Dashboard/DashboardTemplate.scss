@@ -1,0 +1,15 @@
+.DashboardTemplate {
+	display: flex;
+	gap: 1rem;
+	padding: 1rem;
+	background-color: #F3F5FE;
+	overflow: hidden;
+	height: 100vh;
+	border-radius: 0.5rem;
+	&__container {
+		width: 100%;
+		main {
+			padding: 1rem;
+		}
+	}
+}
