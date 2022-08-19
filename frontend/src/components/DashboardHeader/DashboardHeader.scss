@@ -1,0 +1,62 @@
+@use '../../assets/styles/colors' as *;
+.DashboardHeader {
+	display: flex;
+	justify-content: flex-end;
+	padding: 1rem;
+	background-color: $white;
+	width: 100%;
+	border-radius: 0.5rem;
+	&__button {
+		background-color: transparent;
+		color: $secondary;
+		border: none;
+		font-weight: bold;
+		cursor: pointer;
+		&--open {
+			color: $primary;
+		}
+	}
+	&__dropdown {
+		height: 0;
+		overflow: hidden;
+		position: absolute;
+		margin-top: 2.5rem;
+		transition: height 0.15s ease-in-out;
+		background: $white;
+		padding: 0;
+		box-shadow: 0 0 0.5rem -0.25rem rgb(0 0 0 / 30%);
+		border-radius: 0.5rem;
+		width: 8rem;
+		text-align: right;
+		ul {
+			position: relative;
+			list-style-type: none;
+			padding: 0;
+			margin: 0;
+			li {
+				a, button {
+					padding: 1rem 0.5rem;
+					color: $secondary;
+					background-color: transparent;
+					font-weight: bold;
+					font-size: 0.75rem;
+					text-decoration: none;
+					display: block;
+					width: 100%;
+					text-align: center;
+					border: none;
+					transition: all .15s ease-in-out;
+					cursor: pointer;
+					&:hover {
+						background-color: $primary-white;
+						color: $primary;
+					}
+				}
+			}
+		}
+		&--open {
+			height: 6rem;
+			border-bottom: solid 3px $primary;
+		}
+	}
+}
