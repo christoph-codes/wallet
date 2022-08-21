@@ -1,6 +1,5 @@
 import { DialogHTMLAttributes, useRef, ReactNode, MouseEvent } from "react";
 import { FaRegWindowClose } from "react-icons/fa";
-import { useOutsideAlerter } from "../../utils/callbacks";
 import Button from "../Button";
 import { IButton } from "../Button/Button";
 import "./Modal.scss";
