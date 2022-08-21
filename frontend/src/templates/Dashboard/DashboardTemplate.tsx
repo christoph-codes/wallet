@@ -1,4 +1,5 @@
 import { ReactNode } from "react";
+import { Navigate } from "react-router-dom";
 import DashboardHeader from "../../components/DashboardHeader";
 import DashboardSideNav from "../../components/DashboardSideNav";
 import { IUser } from "../../providers/AuthProvider";
@@ -7,7 +8,7 @@ import "./DashboardTemplate.scss";
 export interface IDashboardTemplate {
 	children?: ReactNode;
 	className?: string;
-	user?: IUser;
+	user?: IUser | null;
 	title?: string;
 }
 
@@ -17,6 +18,12 @@ const DashboardTemplate = ({
 	className,
 	title,
 }: IDashboardTemplate) => {
+	/**
+	 * If the user is not authorized it will redirect to the login page.
+	 */
+	if (!user?.authId) {
+		return <Navigate to={"/login"} />;
+	}
 	return (
 		<div className={`DashboardTemplate ${className}`}>
 			<DashboardSideNav />
