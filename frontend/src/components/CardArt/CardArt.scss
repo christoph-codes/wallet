@@ -1,0 +1,11 @@
+.CardArt {
+	padding-bottom: 22%;
+	border-radius: 0.5rem;
+	position: relative;
+	svg {
+		position: absolute;
+		bottom: 0.5rem;
+		right: 1rem;
+		height: auto;
+	}
+}
