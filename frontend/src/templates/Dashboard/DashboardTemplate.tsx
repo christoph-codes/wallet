@@ -33,7 +33,7 @@ const DashboardTemplate = ({
 				)}
 				<main>
 					{title && (
-						<h3 className="DashboardTemplate__title">{title}</h3>
+						<h1 className="DashboardTemplate__title">{title}</h1>
 					)}
 					{children}
 				</main>
