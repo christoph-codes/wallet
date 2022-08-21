@@ -62,7 +62,7 @@ export const updateCard = async (cardId: string, updatedCard: ICard) => {
 export const getUsersCards = async (userId: string) => {
 	const user = await userRepository.fetch(userId); 
 	
-	if ((user.cards.length || 0) < 1) {
+	if ((user?.cards?.length || 0) < 1) {
 		return [];
 	}
 	const cards = user.cards?.map(async cardId => {
