@@ -27,6 +27,7 @@ export interface IUser {
 	email?: string;
 	authId?: string;
 	cards?: string[];
+	entityId?: string;
 }
 
 export interface IAuthContext {
@@ -49,6 +50,7 @@ const AuthContext = createContext<IAuthContext>({
 		email: "",
 		authId: "",
 		cards: [],
+		entityId: "",
 	},
 });
 
@@ -63,36 +65,52 @@ const AuthProvider = ({ children }: IAuthProvider) => {
 				email: "",
 				authId: "",
 				cards: [],
+				entityId: "",
 			}
 		);
 	});
 
+	/**
+	 * If there is no user saved in localstorage, then check firebase for a logged in user and save.
+	 */
 	useEffect(() => {
-		setWithExpiry("wallet_user", user, 3600000);
-	}, [user]);
+		auth.onAuthStateChanged((firebaseUser) => {
+			if (firebaseUser) {
+				db.post(`/users/get`, { authId: firebaseUser?.uid })
+					.then((redisUser) => {
+						if (redisUser.data) {
+							setUser(redisUser.data);
+						} else {
+							setUser({
+								fname: "",
+								lname: "",
+								email: "",
+								authId: "",
+								cards: [],
+								entityId: "",
+							});
+						}
+					})
+					.catch((err) => {
+						throw new Error(err);
+					});
+			} else {
+				setUser({
+					fname: "",
+					lname: "",
+					email: "",
+					authId: "",
+					cards: [],
+					entityId: "",
+				});
+			}
+		});
+	}, []);
 
 	useEffect(() => {
-		if (!user.authId)
-			auth.onAuthStateChanged((firebaseUser) => {
-				if (firebaseUser) {
-					db.post(`/users/get`, { authId: firebaseUser?.uid })
-						.then((redisUser) => {
-							setUser(redisUser.data[0]);
-						})
-						.catch((err) => {
-							throw new Error(err);
-						});
-				} else {
-					setUser({
-						fname: "",
-						lname: "",
-						email: "",
-						authId: "",
-						cards: [],
-					});
-				}
-			});
-	}, [user.authId]);
+		console.log("setting localstorage");
+		setWithExpiry("wallet_user", user, 3600000);
+	}, [user]);
 
 	/**
 	 * ### Login Function
