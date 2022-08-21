@@ -8,16 +8,16 @@ const DashboardSideNav = () => {
 			path: "/dashboard",
 		},
 		{
-			label: "Account",
-			path: "/account",
+			label: "Add Card",
+			path: "/dashboard/add-card",
 		},
 	];
 	return (
 		<aside className="DashboardSideNav">
 			<img src={logo} alt="Wallet Logo" />
 			<ul>
-				{links.map((link) => (
-					<li>
+				{links.map((link, index) => (
+					<li key={index}>
 						<a href={link.path}>{link.label}</a>
 					</li>
 				))}
