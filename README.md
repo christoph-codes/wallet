@@ -4,15 +4,17 @@ A personal credit card wallet for the DEV Redis Hackathon. August 2022
 
 [Insert app screenshots](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax#uploading-assets)
 
-# Overview video (Optional)
-
-Here's a short video that explains the project and how it uses Redis:
-
-[Insert your own video here, and remove the one below]
-
-[![Embed your YouTube video](https://i.ytimg.com/vi/vyxdC1qK4NE/maxresdefault.jpg)](https://www.youtube.com/watch?v=vyxdC1qK4NE)
-
 ## How it works
+
+You create an account with a username and password which writes to Firebases authentication server.
+
+The data returned from Firebase is then saved in the Redis database with some additional fields the app will later request.
+
+Once the initial account creation process is complete, you are taken to your dashboard where you will have the ability to add your credit cards.
+
+After a card is entered you can view its data and update at any point.
+
+You can filter credit card transaction data based on certain data points.
 
 ### How the data is stored:
 
