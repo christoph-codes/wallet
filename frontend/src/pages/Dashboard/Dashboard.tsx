@@ -1,10 +1,8 @@
-import axios from "axios";
-import { ChangeEvent, useEffect, useRef, useState } from "react";
-import Button from "../../components/Button";
+import { useEffect, useState } from "react";
 import CCard from "../../components/CCard";
-import Input from "../../components/Input";
 import Modal from "../../components/Modal";
 import { db } from "../../config/server";
+import AddCardForm from "../../forms/AddCardForm";
 import { useAuth } from "../../providers/AuthProvider";
 import DashboardTemplate from "../../templates/Dashboard";
 import "./Dashboard.scss";
@@ -37,25 +35,6 @@ const Dashboard = () => {
 		};
 		unsubscribe();
 	}, [user?.entityId]);
-
-	const [error, setError] = useState("");
-	const addCard = (e: ChangeEvent<HTMLFormElement>) => {
-		e.preventDefault();
-		setError("");
-		const form: FormData = new FormData(e.target);
-		const formData: any = Object.fromEntries(form.entries());
-		if (Object.values(formData).every((x) => x === "")) {
-			setError("You must fill out all required fields.");
-		} else {
-			const payload = {
-				card: formData,
-				userId: user?.entityId,
-			};
-			db.post("/cards/add", payload).then(console.log);
-			setError("");
-			e.target.reset();
-		}
-	};
 	return (
 		<DashboardTemplate className="Dashboard" user={user}>
 			<h1 className="Dashboard__available_balance">
@@ -79,21 +58,7 @@ const Dashboard = () => {
 								buttonLabel="Add Card"
 							>
 								<h1>Hello World</h1>
-								<form onSubmit={addCard}>
-									{error && (
-										<p className="errorText">{error}</p>
-									)}
-									<Input name="cardName" label="Card Name" />
-									<Input
-										name="lastFour"
-										maxlength="4"
-										type="tel"
-										label="Last Four of Card Number"
-										placeholder="Last Four"
-									/>
-									<Input name="cardName" label="Card Name" />
-									<Button type="submit">Add Card</Button>
-								</form>
+								<AddCardForm />
 							</Modal>
 						</div>
 					)}
