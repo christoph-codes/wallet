@@ -22,14 +22,17 @@ router.post('/add', async (req, res) => {
 	}
 });
 
-router.get('/', async (req, res) => {
+router.post('/', async (req, res) => {
 	const { userId } = req.body;
 	await getUsersCards(userId)
 		.then(response => {
 			res.status(200).send(response);
 		}).catch((err) => {
-			console.log('get cards err:', err);
-			res.status(401).send({ error: err.toString() });
+			if (err) {
+				res.status(401).send({ error: err.toString() });
+			}
+			console.log(err);
+			res.status(400).send({ error: 'Not sure why it failed'})
 		});
 });
 router.get('/get', async (req, res) => {
