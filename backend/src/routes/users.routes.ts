@@ -35,8 +35,7 @@ router.post('/get', async (req, res) => {
 	const { authId } = req.body;
 	await getUser(authId)
 		.then(response => {
-			console.log('get User Response:', response);
-			res.status(200).send(response);
+			res.status(200).send(response[0]);
 		}).catch((err) => {
 			console.log('get user err:', err);
 			res.status(401).send({ error: err });
