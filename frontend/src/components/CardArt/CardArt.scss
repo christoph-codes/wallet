@@ -1,7 +1,41 @@
 .CardArt {
-	padding-bottom: 22%;
+	max-width: 27rem;
+	width: 100%;
+	padding-bottom: 23%;
 	border-radius: 0.5rem;
 	position: relative;
+	margin: 0;
+	overflow: hidden;
+	height: fit-content;
+	&__container {
+		padding: 2rem;
+	}
+	&__numbers {
+		position: absolute;
+		font-size: 5rem;
+		line-height: 0.75;
+		margin: 0;
+		span {
+			font-size: 1.25rem;
+			margin-top: 1rem;
+			display: block;
+		}
+	}
+	&__details {
+		display: flex;
+	    justify-content: space-between;
+	    position: absolute;
+	    width: 50%;
+	    bottom: 0.5rem;
+		p {
+			color: inherit;
+		}
+	}
+	&__expiration {
+		font-size: 1.5rem;
+		position: absolute;
+		bottom: 0;
+	}
 	svg {
 		position: absolute;
 		bottom: 0.5rem;
