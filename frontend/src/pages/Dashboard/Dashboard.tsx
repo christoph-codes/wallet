@@ -15,6 +15,8 @@ export interface ICard {
 	dueDate?: Date;
 	expirationDate?: string;
 	lastFour?: string;
+	cvv?: string;
+	bgColor?: string;
 }
 
 const Dashboard = () => {
