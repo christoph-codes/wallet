@@ -69,4 +69,11 @@ export const validateCreditCardNumber = (value: string) => {
 	} else if (discovRegEx.test(value)) {
 		return "discover";
 	}
-  }
+};
+
+export const numberToCurrency = (value: number) => {
+	return value
+		.toFixed(2)
+		.toString()
+		.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+};
