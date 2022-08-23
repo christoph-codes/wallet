@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
 import CCard from "../../components/CCard";
-import Modal from "../../components/Modal";
 import { db } from "../../config/server";
-import AddCardForm from "../../forms/AddCardForm";
 import { useAuth } from "../../providers/AuthProvider";
 import DashboardTemplate from "../../templates/Dashboard";
+import { numberToCurrency } from "../../utils/helpers";
 import "./Dashboard.scss";
 
 export interface ICard {
@@ -22,6 +21,12 @@ export interface ICard {
 const Dashboard = () => {
 	const { user } = useAuth();
 	const [usersCards, setUsersCards] = useState<ICard[] | null>(null);
+	const totalAvailableBalance = usersCards?.reduce((pv, cv: ICard) => {
+		if (cv.limit && cv.balance) {
+			return pv + cv?.balance;
+		}
+		return pv;
+	}, 0);
 	/**
 	 * Getting a users cards
 	 */
@@ -41,9 +46,8 @@ const Dashboard = () => {
 		<DashboardTemplate className="Dashboard" user={user}>
 			<h1 className="Dashboard__available_balance">
 				<sup>$</sup>
-				{!usersCards
-					? Number(0).toFixed(2)
-					: usersCards?.length.toFixed(2)}
+				{totalAvailableBalance &&
+					numberToCurrency(totalAvailableBalance)}
 				<span>Total Available Balance</span>
 			</h1>
 			{usersCards ? (
@@ -55,13 +59,6 @@ const Dashboard = () => {
 					) : (
 						<div className="Dashboard__empty_cards">
 							<p>No Cards Have been added. Add one now!</p>
-							<Modal
-								buttonVariant="primary-outline"
-								buttonLabel="Add Card"
-							>
-								<h1>Hello World</h1>
-								<AddCardForm />
-							</Modal>
 						</div>
 					)}
 				</section>
