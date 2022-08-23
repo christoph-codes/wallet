@@ -108,7 +108,6 @@ const AuthProvider = ({ children }: IAuthProvider) => {
 	}, []);
 
 	useEffect(() => {
-		console.log("setting localstorage");
 		setWithExpiry("wallet_user", user, 3600000);
 	}, [user]);
 
