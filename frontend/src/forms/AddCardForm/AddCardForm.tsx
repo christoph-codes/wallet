@@ -1,4 +1,5 @@
 import { ChangeEvent, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Button from "../../components/Button";
 import CardArt from "../../components/CardArt/CardArt";
 import Input from "../../components/Input";
@@ -10,23 +11,35 @@ import { validateCreditCardNumber } from "../../utils/helpers";
 import "./AddCardForm.scss";
 
 const AddCardForm = () => {
+	const navigate = useNavigate();
 	const { user } = useAuth();
 	const [error, setError] = useState("");
 	const addCard = (e: ChangeEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		setError("");
-		const form: FormData = new FormData(e.target);
-		const formData: any = Object.fromEntries(form.entries());
-		if (Object.values(formData).every((x) => x === "")) {
+		if (Object.values(cardDetails).every((x) => x === "")) {
 			setError("You must fill out all required fields.");
 		} else {
 			const payload = {
-				card: formData,
+				card: {
+					name: cardDetails.name,
+					bgColor: cardDetails.bgColor,
+					lastFour: cardDetails.lastFour,
+					expirationDate: cardDetails.expirationDate,
+					cvv: cardDetails.cvv,
+					balance: Number(cardDetails.balance),
+					limit: Number(cardDetails.limit),
+					issuer: cardDetails.issuer,
+				},
 				userId: user?.entityId,
 			};
-			db.post("/cards/add", payload).then(console.log);
-			setError("");
-			e.target.reset();
+			db.post("/cards/add", payload)
+				.then((response) => {
+					setError("");
+					e.target.reset();
+					navigate("/dashboard");
+				})
+				.catch(console.log);
 		}
 	};
 	const [cardDetails, setCardDetails] = useState<ICard>({});
@@ -37,6 +50,7 @@ const AddCardForm = () => {
 			[name]: value,
 		});
 	};
+	console.log("limit:", typeof cardDetails.limit);
 	return (
 		<div className="AddCardForm">
 			<h2>Add A Card</h2>
@@ -61,15 +75,17 @@ const AddCardForm = () => {
 							placeholder="#d7f300"
 							onChange={updateForm}
 							type="color"
+							defaultValue="#d7f300"
 						/>
 					</Row>
 					<Input
 						name="lastFour"
-						maxlength={16}
+						maxLength={16}
 						type="tel"
-						label="16 Digita Card Number"
+						label="16 Digit Card Number"
 						placeholder="Last Four"
 						onChange={updateForm}
+						value={cardDetails.lastFour?.replace(/\D/g, "")}
 						onBlur={(e: ChangeEvent<HTMLInputElement>) =>
 							setCardDetails({
 								...cardDetails,
@@ -83,7 +99,6 @@ const AddCardForm = () => {
 						<Input
 							name="expirationDate"
 							label="Expiration Date"
-							maxlength={4}
 							maxLength={4}
 							placeholder="06/27"
 							onChange={updateForm}
@@ -91,7 +106,6 @@ const AddCardForm = () => {
 						<Input
 							name="cvv"
 							label="Security Code"
-							maxlength={3}
 							maxLength={3}
 							placeholder="157"
 							type="tel"
@@ -101,7 +115,7 @@ const AddCardForm = () => {
 					<Row>
 						<Input
 							name="balance"
-							type="tel"
+							type="number"
 							label="Available Balance"
 							placeholder="1200"
 							onChange={updateForm}
@@ -109,7 +123,7 @@ const AddCardForm = () => {
 						<Input
 							name="limit"
 							label="Credit Limit"
-							type="tel"
+							type="number"
 							placeholder="10,000"
 							onChange={updateForm}
 						/>

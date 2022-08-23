@@ -4,6 +4,7 @@
 		width: 100%;
 		text-align: center;
 		border-bottom: solid 1px $secondary-light;
+		line-height: 2;
 	}
 	&__container {
 		display: flex;
@@ -11,6 +12,7 @@
 		justify-content: space-around;
 		.CardArt {
 			flex-grow: 0;
+			margin-bottom: 2rem;
 		}
 		form {
 			width: 50%;
