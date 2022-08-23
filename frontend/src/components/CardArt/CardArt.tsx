@@ -14,7 +14,7 @@ export interface ICardArt {
 	[x: string]: any;
 }
 const CardArt = ({ data, className }: ICardArt) => {
-	const defaultBG = "#4444ff";
+	const defaultBG = "#d7f300";
 	const color = invertColor(data?.bgColor || defaultBG);
 	const issuerLogoSize = 64;
 	const issuerArt = {
@@ -23,7 +23,6 @@ const CardArt = ({ data, className }: ICardArt) => {
 		discover: <SiDiscover color={color} size={issuerLogoSize} />,
 		amex: <SiAmericanexpress color={color} size={issuerLogoSize} />,
 	};
-	console.log("issuer", data?.issuer);
 	return (
 		<div
 			style={{ backgroundColor: data?.bgColor || defaultBG }}

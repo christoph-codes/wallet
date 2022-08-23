@@ -1,23 +1,25 @@
 .CardArt {
 	max-width: 27rem;
 	width: 100%;
-	padding-bottom: 23%;
+	padding-bottom: 45%;
 	border-radius: 0.5rem;
 	position: relative;
 	margin: 0;
 	overflow: hidden;
 	height: fit-content;
+	font-size: 40%;
 	&__container {
-		padding: 2rem;
+		padding: 2em;
 	}
 	&__numbers {
 		position: absolute;
-		font-size: 5rem;
+		font-size: 7em;
 		line-height: 0.75;
 		margin: 0;
+		text-align: left;
 		span {
-			font-size: 1.25rem;
-			margin-top: 1rem;
+			font-size: 0.5em;
+			margin-top: 1em;
 			display: block;
 		}
 	}
@@ -29,10 +31,11 @@
 	    bottom: 0.5rem;
 		p {
 			color: inherit;
+			font-size: 2em;
 		}
 	}
 	&__expiration {
-		font-size: 1.5rem;
+		font-size: 1.5em;
 		position: absolute;
 		bottom: 0;
 	}
