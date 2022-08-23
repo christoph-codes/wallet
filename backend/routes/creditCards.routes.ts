@@ -1,5 +1,5 @@
 import express from 'express';
-import { addCard, getUsersCards, getCard, deleteCard, updateCard } from '../../redis/functions/cards.js';
+import { addCard, getUsersCards, getCard, deleteCard, updateCard } from '../redis/functions/cards.js';
 const router = express.Router();
 
 router.post('/add', async (req, res) => {

@@ -1,5 +1,5 @@
 import express from 'express';
-import { createUser, getUsers, getUser, deleteUser, updateUser } from '../../redis/functions/users.js';
+import { createUser, getUsers, getUser, deleteUser, updateUser } from '../redis/functions/users.js';
 const router = express.Router();
 
 router.post('/create', async (req, res) => {
