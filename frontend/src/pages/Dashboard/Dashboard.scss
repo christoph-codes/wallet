@@ -20,10 +20,13 @@
 	}
 	&__cards {
 		display: flex;
+		flex-direction: row;
+		flex-wrap: wrap;
+		width: 100%;
 		gap: 2rem;
 		justify-content: space-between;
 		.CCard {
-			flex-basis: 50%;
+			flex: 1;
 		}
 	}
 	&__empty_cards {
