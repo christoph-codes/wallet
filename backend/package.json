@@ -13,9 +13,12 @@
     "redis-om": "^0.3.6",
     "ts-node": "^10.9.1"
   },
+  "engines": {
+    "node": "14.x"
+  },
   "scripts": {
     "dev": "nodemon index.ts",
-    "start": "tsc && node dist/app.js",
+    "start": "tsc && ts-node dist/index.js",
     "redis": "redis-stack-server"
   },
   "devDependencies": {
