@@ -11,7 +11,8 @@
     "frontend": "cd frontend && yarn start",
 	"prebackend": "cd backend && yarn redis",
     "backend": "cd backend && yarn dev",
-    "installer": "yarn frontend && yarn backend"
+    "installer": "yarn frontend && yarn backend",
+	"start": "yarn frontend && yarn backend"
   },
   "devDependencies": {
     "@babel/core": "^7.18.10",
