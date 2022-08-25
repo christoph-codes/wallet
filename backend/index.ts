@@ -1,10 +1,10 @@
 import express from "express";
+import path from "path";
 import * as dotenv from "dotenv";
 dotenv.config();
 import routes from "./routes/index.js";
 import usersRouter from "./routes/users.routes.js";
 import cardsRouter from "./routes/creditCards.routes.js";
-import client from "./redis/index.js";
 
 console.log("process", process.env.REDIS_URL);
 console.log("chris", process.env.DEV);
@@ -35,8 +35,10 @@ app.use("/cards", cardsRouter);
 
 app.use("/", routes);
 
+// app.get("*", (req, res) => {
+// 	res.sendFile(path.join(`${__dirname}/build/index.html`));
+// });
+
 app.listen(port, () => {
 	return console.log(`Express is listening at http://localhost:${port}`);
 });
-
-await client.close();
