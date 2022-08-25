@@ -12,7 +12,7 @@
 	"devbackend": "cd backend && npm run redis",
     "backend": "cd backend && npm run start",
     "installer": "yarn frontend && yarn backend",
-	"start": "npm run frontend && npm run backend"
+	"start": "cd backend && npm start"
   },
   "devDependencies": {
     "@babel/core": "^7.18.10",
