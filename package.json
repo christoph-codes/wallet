@@ -8,11 +8,11 @@
   "license": "MIT",
   "type": "module",
   "scripts": {
-    "frontend": "cd frontend && yarn start",
-	"prebackend": "cd backend && yarn redis",
-    "backend": "cd backend && yarn dev",
+    "frontend": "cd frontend && npm run start",
+	"devbackend": "cd backend && npm run redis",
+    "backend": "cd backend && npm run start",
     "installer": "yarn frontend && yarn backend",
-	"start": "yarn frontend && yarn backend"
+	"start": "npm run frontend && npm run backend"
   },
   "devDependencies": {
     "@babel/core": "^7.18.10",
