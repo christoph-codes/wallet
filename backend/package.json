@@ -2,7 +2,7 @@
   "name": "backend",
   "version": "1.0.0",
   "description": "API of the personal credit card wallet.",
-  "main": "index.ts",
+  "main": "index.js",
   "license": "MIT",
   "type": "module",
   "dependencies": {
