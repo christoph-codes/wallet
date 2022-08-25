@@ -12,5 +12,5 @@
 		"esm": true
 	},
 	"lib": ["es2015"],
-	"exclude": ["node_modules", "frontend/**/*", "src/example-nested"]
+	"exclude": ["node_modules", "frontend/**"]
 }
