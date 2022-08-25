@@ -2,18 +2,16 @@
   "name": "wallet",
   "version": "1.0.0",
   "description": "A personal credit card wallet for the DEV Redis Hackathon. August 2022",
-  "main": "index.js",
+  "main": "index.ts",
   "repository": "git@github.com:christoph-codes/wallet.git",
   "author": "Christopher Jones <tkcwebdev@gmail.com>",
   "license": "MIT",
   "type": "module",
   "scripts": {
-    "frontend": "cd frontend && npm run start",
-	"devbackend": "cd backend && npm run redis",
-    "backend": "cd backend && npm run start",
-    "installer": "yarn frontend && yarn backend",
-	"start": "cd backend && npm start",
-	"postinstall": "cd backend && tsc"
+	"dev": "nodemon index.ts",
+    "redis": "redis-stack-server",
+    "start": "node dist/index.js",
+	"postinstall": "tsc"
   },
   "devDependencies": {
     "@babel/core": "^7.18.10",
@@ -24,5 +22,16 @@
     "eslint-config-xo": "^0.41.0",
     "eslint-plugin-react": "^7.30.1",
     "typescript": "^4.7.4"
+  },
+  "dependencies": {
+    "@types/express": "^4.17.13",
+    "dotenv": "^16.0.1",
+    "express": "^4.18.1",
+    "nodemon": "^2.0.19",
+    "redis-om": "^0.3.6",
+    "ts-node": "^10.9.1"
+  },
+  "engines": {
+    "node": "14.x"
   }
 }

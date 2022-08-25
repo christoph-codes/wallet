@@ -1,3 +1,5 @@
+.env
+dump.rdb
+/dist
 node_modules
 yarn.lock
-.env
