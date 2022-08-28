@@ -127,6 +127,14 @@ const AuthProvider = ({ children }: IAuthProvider) => {
 								setUser(user.data[0]);
 								navigate("/dashboard");
 							} else {
+								setUser({
+									fname: "",
+									lname: "",
+									email: "",
+									authId: "",
+									cards: [],
+									entityId: "",
+								});
 								throw new Error("What happened?");
 							}
 						})
@@ -134,10 +142,26 @@ const AuthProvider = ({ children }: IAuthProvider) => {
 							console.log("err", err);
 						});
 				} else {
+					setUser({
+						fname: "",
+						lname: "",
+						email: "",
+						authId: "",
+						cards: [],
+						entityId: "",
+					});
 					throw new Error("There is no user with this account info.");
 				}
 			})
 			.catch((err) => {
+				setUser({
+					fname: "",
+					lname: "",
+					email: "",
+					authId: "",
+					cards: [],
+					entityId: "",
+				});
 				throw new Error(err);
 			});
 	};
