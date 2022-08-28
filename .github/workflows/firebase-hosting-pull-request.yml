@@ -9,12 +9,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-        
       - name: Install & Build Frontend
-      - run: npm install && cd frontend && npm install && npm run build
-        
+        run: npm install && cd frontend && npm install && npm run build
       - name: Deploy Firebase
-      - uses: FirebaseExtended/action-hosting-deploy@v0
+        uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_WALLET_82C94 }}'
