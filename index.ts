@@ -6,9 +6,6 @@ import routes from "./routes/index.js";
 import usersRouter from "./routes/users.routes.js";
 import cardsRouter from "./routes/creditCards.routes.js";
 
-console.log("process", process.env.REDIS_URL);
-console.log("chris", process.env.DEV);
-
 const app = express();
 const port = process.env.PORT || 5000;
 
