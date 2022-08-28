@@ -25,6 +25,7 @@
 		width: 100%;
 		gap: 2rem;
 		justify-content: space-between;
+		overflow-y: scroll;
 		.CCard {
 			flex: 1 0 auto;
 			max-width: calc(33% - 2rem);
