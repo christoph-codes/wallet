@@ -19,6 +19,11 @@
 		}
 	}
 	&__card_container {
-		width: 100%;
+		width: 30rem;
+		h3 {
+			span {
+				color: $secondary;
+			}
+		}
 	}
 }

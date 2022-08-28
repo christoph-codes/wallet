@@ -7,7 +7,10 @@ import Row from "../../components/Row";
 import { db } from "../../config/server";
 import { ICard } from "../../pages/Dashboard/Dashboard";
 import { useAuth } from "../../providers/AuthProvider";
-import { validateCreditCardNumber } from "../../utils/helpers";
+import {
+	numberToCurrency,
+	validateCreditCardNumber,
+} from "../../utils/helpers";
 import "./AddCardForm.scss";
 
 const AddCardForm = () => {
@@ -57,8 +60,17 @@ const AddCardForm = () => {
 			<div className="AddCardForm__container">
 				<div className="AddCardForm__card_container">
 					<CardArt data={cardDetails} />
-					{cardDetails?.balance && <h3>{cardDetails?.balance}</h3>}
-					{cardDetails.limit && <span>{cardDetails.limit}</span>}
+					{cardDetails?.balance && (
+						<h3>
+							Total Balance:{" "}
+							{numberToCurrency(cardDetails?.balance)} /{" "}
+							{cardDetails.limit && (
+								<span>
+									{numberToCurrency(cardDetails.limit)}
+								</span>
+							)}
+						</h3>
+					)}
 				</div>
 				<form onSubmit={addCard}>
 					{error && <p className="errorText">{error}</p>}
@@ -68,6 +80,7 @@ const AddCardForm = () => {
 							label="Card Nickname"
 							placeholder="Credit One Bank"
 							onChange={updateForm}
+							maxLength={22}
 						/>
 						<Input
 							name="bgColor"
