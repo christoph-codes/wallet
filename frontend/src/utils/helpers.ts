@@ -72,7 +72,8 @@ export const validateCreditCardNumber = (value: string) => {
 };
 
 export const numberToCurrency = (value: number) => {
-	return value
+	const newValue = typeof value === "string" ? parseInt(value) : value;
+	return newValue
 		.toFixed(2)
 		.toString()
 		.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
