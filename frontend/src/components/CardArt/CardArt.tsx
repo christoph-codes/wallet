@@ -34,24 +34,22 @@ const CardArt = ({ data, className }: ICardArt) => {
 					<span>{data?.name}</span>
 				</h1>
 				<div className="CardArt__details" style={{ color: color }}>
-					{data?.expirationDate && (
-						<>
-							<p>
-								Exp:{" "}
-								<strong>
-									{data?.expirationDate?.substring(2, 0) +
-										"/" +
-										data?.expirationDate?.substring(
-											2,
-											data?.expirationDate?.length
-										)}
-								</strong>
-							</p>
-							<p>
-								CVV: <strong>{data?.cvv}</strong>
-							</p>
-						</>
-					)}
+					<p>
+						Exp:{" "}
+						<strong>
+							{data?.expirationDate
+								? data?.expirationDate?.substring(2, 0) +
+								  "/" +
+								  data?.expirationDate?.substring(
+										2,
+										data?.expirationDate?.length
+								  )
+								: "00/00"}
+						</strong>
+					</p>
+					<p>
+						CVV: <strong>{data?.cvv || "000"}</strong>
+					</p>
 				</div>
 				{issuerArt[data?.issuer as keyof typeof issuerArt]}
 			</div>
