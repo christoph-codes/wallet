@@ -10,8 +10,4 @@ console.log("url", url);
 /* create and open the Redis OM Client */
 const client = await new Client().open(url);
 
-console.log("client", client);
-
-// await client.close();
-
 export default client;
