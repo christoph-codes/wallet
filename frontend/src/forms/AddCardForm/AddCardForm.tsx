@@ -62,10 +62,11 @@ const AddCardForm = () => {
 					<CardArt data={cardDetails} />
 					{cardDetails?.balance && (
 						<h3>
-							Total Balance:{" "}
+							Total Balance: <sup>$</sup>
 							{numberToCurrency(cardDetails?.balance)} /{" "}
 							{cardDetails.limit && (
 								<span>
+									<sup>$</sup>
 									{numberToCurrency(cardDetails.limit)}
 								</span>
 							)}
