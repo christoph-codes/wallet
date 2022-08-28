@@ -118,22 +118,28 @@ const AuthProvider = ({ children }: IAuthProvider) => {
 	 * @param password a secret `string` that is associated with the users account
 	 */
 	const login = (email: string, password: string) => {
-		signInWithEmailAndPassword(auth, email, password).then(
-			(firebaseUser) => {
+		signInWithEmailAndPassword(auth, email, password)
+			.then((firebaseUser) => {
 				if (firebaseUser) {
 					db.post(`/users/get`, { authId: firebaseUser?.user?.uid })
 						.then((user) => {
 							if (user) {
 								setUser(user.data[0]);
 								navigate("/dashboard");
+							} else {
+								throw new Error("What happened?");
 							}
 						})
 						.catch((err) => {
 							console.log("err", err);
 						});
+				} else {
+					throw new Error("There is no user with this account info.");
 				}
-			}
-		);
+			})
+			.catch((err) => {
+				throw new Error(err);
+			});
 	};
 
 	const createAccount = (user: ICreateAccountArgs) => {
@@ -167,7 +173,7 @@ const AuthProvider = ({ children }: IAuthProvider) => {
 			})
 			.catch((error) => {
 				console.log("firebase create account error", error);
-				throw new Error(error.code);
+				throw new Error(error);
 			});
 	};
 
