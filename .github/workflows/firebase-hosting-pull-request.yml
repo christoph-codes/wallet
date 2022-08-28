@@ -9,11 +9,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - run: npm install
-      - run: cd frontend && npm install && npm run build
+        
+      - name: Install & Build Frontend
+      - run: npm install && cd frontend && npm install && npm run build
+        
+      - name: Deploy Firebase
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
-          entrypoint: ./frontend
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_WALLET_82C94 }}'
-          projectId: '${{ secrets.REACT_APP_FIREBASE_PROJECT_ID }}'
+          projectId: wallet-82c94
+        env:
+          PROJECT_ID: ${{ secrets.REACT_APP_FIREBASE_PROJECT_ID }}
