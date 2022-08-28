@@ -35,7 +35,6 @@ const Dashboard = () => {
 			return await db
 				.post("/cards", { userId: user?.entityId })
 				.then((cards) => {
-					console.log("getCards getter:", cards.data);
 					setUsersCards(cards.data);
 				})
 				.catch(console.log);
