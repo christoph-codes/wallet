@@ -26,7 +26,14 @@
 		gap: 2rem;
 		justify-content: space-between;
 		.CCard {
-			flex: 1;
+			flex: 1 0 auto;
+			max-width: calc(33% - 2rem);
+			@media(max-width: 75rem) {
+				max-width: calc(50% - 1rem);
+			}
+			@media(max-width: 48rem) {
+				max-width: 100%;
+			}
 		}
 	}
 	&__empty_cards {
