@@ -17,6 +17,4 @@ jobs:
           entrypoint: './frontend'
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_WALLET_82C94 }}'
-          projectId: wallet-82c94
-        env:
-          REACT_APP_FIREBASE_PROJECT_ID: ${{ secrets.REACT_APP_FIREBASE_PROJECT_ID }}
+          projectId: ${{ secrets.REACT_APP_FIREBASE_PROJECT_ID }}
