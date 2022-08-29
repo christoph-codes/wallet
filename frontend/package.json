@@ -27,7 +27,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "env-cmd -f .env.production.local react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "emu": "firebase emulators:start"
@@ -49,5 +49,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "env-cmd": "^10.1.0"
   }
 }
