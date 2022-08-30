@@ -10,7 +10,6 @@ export interface ICCard {
 }
 
 const CCard = ({ className, card }: ICCard) => {
-	console.log("card", card);
 	const color = card?.bgColor
 		? invertColor(card?.bgColor)
 		: invertColor("#1042E6");
