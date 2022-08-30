@@ -1,0 +1,27 @@
+@use '../../assets/styles/colors' as *;
+.Header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 1rem;
+	margin: 0.5rem;
+	background-color: $primary-white;
+	border-radius: 0.5rem;
+	nav {
+		display: flex;
+		align-items: center;
+		list-style: none;
+		gap: 2rem;
+		li {
+			a {
+				color: $primary;
+				font-weight: bold;
+				text-decoration: none;
+				&:hover {
+					color: $primary-dark;
+					text-decoration: underline;
+				}
+			}
+		}
+	}
+}

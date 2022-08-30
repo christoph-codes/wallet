@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Navigate } from "react-router-dom";
 import CCard from "../../components/CCard";
 import { db } from "../../config/server";
 import { useAuth } from "../../providers/AuthProvider";
@@ -41,8 +42,17 @@ const Dashboard = () => {
 		};
 		unsubscribe();
 	}, [user?.entityId]);
+
+	/**
+	 * Checck if user object has been set. Redirect if it fails to grab authid
+	 */
+	if (!user?.authId) {
+		setTimeout(() => {
+			return <Navigate to="/login" />;
+		}, 2000);
+	}
 	return (
-		<DashboardTemplate className="Dashboard" user={user}>
+		<DashboardTemplate className="Dashboard">
 			<h1 className="Dashboard__available_balance">
 				<sup>$</sup>
 				{totalAvailableBalance &&

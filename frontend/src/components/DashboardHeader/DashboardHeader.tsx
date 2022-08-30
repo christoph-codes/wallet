@@ -1,6 +1,6 @@
-import { useRef, useState } from "react";
+import { MouseEvent, useRef, useState } from "react";
 import { useAuth } from "../../providers/AuthProvider";
-import { useOutsideAlerter } from "../../utils/callbacks";
+// import { useOutsideAlerter } from "../../utils/callbacks";
 import "./DashboardHeader.scss";
 
 export interface IDashboardHeader {
@@ -12,9 +12,15 @@ const DashboardHeader = ({ name }: IDashboardHeader) => {
 	const dropdownRef = useRef(null);
 	const [dropdownOpen, setDropdownOpen] = useState(false);
 
-	useOutsideAlerter(dropdownRef, () =>
-		setDropdownOpen(dropdownOpen && false)
-	);
+	// useOutsideAlerter(dropdownRef, () =>
+	// 	setDropdownOpen(dropdownOpen && false)
+	// );
+
+	const logUserOut = (e: MouseEvent<HTMLButtonElement>) => {
+		e.preventDefault();
+		logout && logout();
+		setDropdownOpen(dropdownOpen && false);
+	};
 	return (
 		<header className="DashboardHeader">
 			<button
@@ -36,9 +42,7 @@ const DashboardHeader = ({ name }: IDashboardHeader) => {
 						<a href="/dashboard/settings">Settings</a>
 					</li>
 					<li>
-						<button onClick={() => logout && logout()}>
-							Logout
-						</button>
+						<button onClick={(e) => logUserOut(e)}>Logout</button>
 					</li>
 				</ul>
 			</div>

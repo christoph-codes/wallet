@@ -7,6 +7,7 @@
 	font-weight: bold;
 	transition: background-color ease-in-out 0.15s;
 	cursor: pointer;
+	text-decoration: none !important;
 	&__primary {
 		background-color: $primary;
 		border-color: $primary;
@@ -41,6 +42,24 @@
 			background-color: $secondary-light;
 			border-color: $secondary-dark;
 			color: $secondary-dark
+		}
+	}
+	&__white {
+		background-color: $white;
+		border-color: $white;
+		color: $primary;
+		&:hover {
+			background-color: $primary-light;
+		}
+	}
+	&__white-outline {
+		background-color: transparent;
+		border-color: $white;
+		color: $white;
+		&:hover {
+			background-color: rgba(255 255 255 / 10%);
+			border-color: $white;
+			color: $primary-light;
 		}
 	}
 }
