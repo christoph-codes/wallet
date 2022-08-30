@@ -1,0 +1,28 @@
+@use '../../assets/styles/colors' as *;
+.CCard {
+	background: $white;
+	text-align: center;
+	border-radius: 0.5rem;
+	overflow: hidden;
+	width: 100%;
+	&__bg {
+		padding: 1rem 0 2rem;
+		filter: grayscale(0.6);
+		h3 {
+			color: inherit;
+			font-size: 2rem;
+			font-weight: bold;
+			margin-bottom: 0.5rem;
+			span {
+				font-size: 1rem;
+				display: block;
+			}
+		}
+	}
+	&__content {
+		padding: 0 2rem 1rem;
+		.CardArt {
+			margin: -2rem auto 1rem;
+		}
+	}
+}

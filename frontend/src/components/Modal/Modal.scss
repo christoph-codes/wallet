@@ -1,0 +1,32 @@
+@use '../../assets/styles/colors' as *;
+.Modal {
+	width: 50%;
+    border: none;
+    border-radius: 0.5rem;
+    padding: 2rem;
+	&::backdrop {
+		background-color: rgba(0 0 0 / 70%);
+		cursor: pointer;
+	}
+	&__container {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+    	align-items: center;
+		margin-top: 1rem;
+	}
+	&__close {
+		border: none;
+		text-align: center;
+		background: transparent;
+		color: $secondary-light;
+		right: 0.5rem;
+	    top: 0.5rem;
+		position: absolute;
+		transition: color ease-in-out .15s;
+		cursor: pointer;
+		&:hover {
+			color: $secondary-medium;
+		}
+	}
+}

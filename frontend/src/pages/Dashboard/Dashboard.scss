@@ -1,0 +1,54 @@
+@use '../../assets/styles/colors' as *;
+.Dashboard {
+	main {
+		display: flex;
+		flex-direction: column;
+		padding: 1rem 0 0;
+		flex-grow: 1;
+		overflow-y: scroll;
+	}
+	&__available_balance {
+		font-size: 4rem;
+		text-align: center;
+		color: $primary;
+		margin-bottom: 2rem;
+		span {
+			display: block;
+			font-size: 1rem;
+			color: $secondary;
+		}
+	}
+	&__cards {
+		display: flex;
+		flex-direction: row;
+		flex-wrap: wrap;
+		width: 100%;
+		gap: 2rem;
+		justify-content: space-between;
+		overflow-y: scroll;
+		.CCard {
+			flex: 1 0 auto;
+			max-width: calc(33% - 2rem);
+			@media(max-width: 75rem) {
+				max-width: calc(50% - 1rem);
+			}
+			@media(max-width: 48rem) {
+				max-width: 100%;
+			}
+		}
+	}
+	&__empty_cards {
+		border: $primary-light solid 2px;
+		height: 100%;
+		width: 100%;
+		border-radius: 0.5rem;
+		padding: 1rem;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		flex-direction: column;
+		p {
+			color: $primary-medium;
+		}
+	}
+}

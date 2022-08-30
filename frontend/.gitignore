@@ -17,6 +17,7 @@
 .env.local
 .env.development.local
 .env.test.local
+.env.production
 .env.production.local
 
 npm-debug.log*
@@ -25,3 +26,5 @@ yarn-error.log*
 
 firebase-debug.log
 ui-debug.log
+.firebase
+.firebase/*

@@ -1,0 +1,30 @@
+@use '../../assets/styles/colors' as *;
+.DashboardSideNav {
+	padding: 2rem;
+	width: 15rem;
+	text-align: center;
+	background-color: $white;
+	border-radius: 0.5rem;
+	ul {
+		padding: 0;
+		li {
+			list-style-type: none;
+			a {
+				padding: 1.5rem 0;
+				margin-bottom: 1rem;
+				width: 100%;
+				text-align: center;
+				display: block;
+				background-color: $primary-white;
+				border-radius: 0.5rem;
+				color: $primary;
+				text-decoration: none;
+				font-weight: bold;
+				transition: background .15s ease-in-out;
+				&:hover {
+					background-color: $primary-light;
+				}
+			}
+		}
+	}
+}

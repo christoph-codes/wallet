@@ -27,6 +27,7 @@ export interface IUser {
 	email?: string;
 	authId?: string;
 	cards?: string[];
+	entityId?: string;
 }
 
 export interface IAuthContext {
@@ -49,6 +50,7 @@ const AuthContext = createContext<IAuthContext>({
 		email: "",
 		authId: "",
 		cards: [],
+		entityId: "",
 	},
 });
 
@@ -63,36 +65,51 @@ const AuthProvider = ({ children }: IAuthProvider) => {
 				email: "",
 				authId: "",
 				cards: [],
+				entityId: "",
 			}
 		);
 	});
 
+	/**
+	 * If there is no user saved in localstorage, then check firebase for a logged in user and save.
+	 */
+	useEffect(() => {
+		auth.onAuthStateChanged((firebaseUser) => {
+			if (firebaseUser) {
+				db.post(`/users/get`, { authId: firebaseUser?.uid })
+					.then((redisUser) => {
+						if (redisUser.data) {
+							setUser(redisUser.data);
+						} else {
+							setUser({
+								fname: "",
+								lname: "",
+								email: "",
+								authId: "",
+								cards: [],
+								entityId: "",
+							});
+						}
+					})
+					.catch((err) => {
+						throw new Error(err);
+					});
+			} else {
+				setUser({
+					fname: "",
+					lname: "",
+					email: "",
+					authId: "",
+					cards: [],
+					entityId: "",
+				});
+			}
+		});
+	}, []);
+
 	useEffect(() => {
 		setWithExpiry("wallet_user", user, 3600000);
 	}, [user]);
-
-	useEffect(() => {
-		if (!user.authId)
-			auth.onAuthStateChanged((firebaseUser) => {
-				if (firebaseUser) {
-					db.post(`/users/get`, { authId: firebaseUser?.uid })
-						.then((redisUser) => {
-							setUser(redisUser.data[0]);
-						})
-						.catch((err) => {
-							throw new Error(err);
-						});
-				} else {
-					setUser({
-						fname: "",
-						lname: "",
-						email: "",
-						authId: "",
-						cards: [],
-					});
-				}
-			});
-	}, [user.authId]);
 
 	/**
 	 * ### Login Function
@@ -101,22 +118,52 @@ const AuthProvider = ({ children }: IAuthProvider) => {
 	 * @param password a secret `string` that is associated with the users account
 	 */
 	const login = (email: string, password: string) => {
-		signInWithEmailAndPassword(auth, email, password).then(
-			(firebaseUser) => {
+		signInWithEmailAndPassword(auth, email, password)
+			.then((firebaseUser) => {
 				if (firebaseUser) {
 					db.post(`/users/get`, { authId: firebaseUser?.user?.uid })
 						.then((user) => {
 							if (user) {
 								setUser(user.data[0]);
 								navigate("/dashboard");
+							} else {
+								setUser({
+									fname: "",
+									lname: "",
+									email: "",
+									authId: "",
+									cards: [],
+									entityId: "",
+								});
+								throw new Error("What happened?");
 							}
 						})
 						.catch((err) => {
 							console.log("err", err);
 						});
+				} else {
+					setUser({
+						fname: "",
+						lname: "",
+						email: "",
+						authId: "",
+						cards: [],
+						entityId: "",
+					});
+					throw new Error("There is no user with this account info.");
 				}
-			}
-		);
+			})
+			.catch((err) => {
+				setUser({
+					fname: "",
+					lname: "",
+					email: "",
+					authId: "",
+					cards: [],
+					entityId: "",
+				});
+				throw new Error(err);
+			});
 	};
 
 	const createAccount = (user: ICreateAccountArgs) => {
@@ -150,7 +197,7 @@ const AuthProvider = ({ children }: IAuthProvider) => {
 			})
 			.catch((error) => {
 				console.log("firebase create account error", error);
-				throw new Error(error.code);
+				throw new Error(error);
 			});
 	};
 

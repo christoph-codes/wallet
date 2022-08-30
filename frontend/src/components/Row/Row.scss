@@ -1,0 +1,29 @@
+.Row {
+	display: flex;
+	gap: 1rem;
+	* {
+		flex-grow: 1;
+	}
+	&__justify {
+		&__center {
+			justify-content: center;
+		}
+		&__end {
+			justify-content: flex-end;
+		}
+		&__between {
+			justify-content: space-between;
+		}
+	}
+	&__align {
+		&__center {
+			align-items: center;
+		}
+		&__end {
+			align-items: flex-end;
+		}
+		&start {
+			align-items: flex-start;
+		}
+	}
+}
