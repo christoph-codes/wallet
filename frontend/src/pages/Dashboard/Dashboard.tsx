@@ -42,7 +42,7 @@ const Dashboard = () => {
 		unsubscribe();
 	}, [user?.entityId]);
 	return (
-		<DashboardTemplate className="Dashboard" user={user}>
+		<DashboardTemplate className="Dashboard">
 			<h1 className="Dashboard__available_balance">
 				<sup>$</sup>
 				{totalAvailableBalance &&
