@@ -1,7 +1,11 @@
 import "./Footer.scss";
 
 const Footer = () => {
-	return <footer>Footer</footer>;
+	return (
+		<footer className="Footer">
+			Copyright © {new Date().getFullYear()}
+		</footer>
+	);
 };
 
 export default Footer;
