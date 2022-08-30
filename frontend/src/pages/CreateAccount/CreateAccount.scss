@@ -1,0 +1,18 @@
+@use '../../assets/styles/colors' as *;
+.CreateAccount {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 90vh;
+	flex-direction: column;
+	text-align: center;
+	img {
+		margin-bottom: 2rem;
+	}
+	form {
+		width: 25rem;
+		border: solid 1px $primary-light;
+		border-radius: 1rem;
+		padding: 2rem;
+	}
+}
