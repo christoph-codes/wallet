@@ -2,6 +2,8 @@
 
 A personal credit card wallet for the DEV Redis Hackathon. August 2022
 
+[Wallet](https://wallet-82c94.web.app/)
+
 <img width="1435" alt="Screen Shot 2022-08-29 at 10 03 21 PM" src="https://user-images.githubusercontent.com/54452490/187353403-ddbe65de-313b-4481-a770-6aed57183d7c.png">
 
 <img width="1438" alt="Screen Shot 2022-08-29 at 10 05 34 PM" src="https://user-images.githubusercontent.com/54452490/187353634-4441c3d9-a9b6-4e71-b8ff-f474a1cbc2c8.png">
@@ -55,8 +57,11 @@ You can filter credit card transaction data based on certain data points.
 
 ## How to run it locally?
 
+- `yarn dev` // starts server
+- `yarn emu` // starts firebase authentication emulators
+- `yarn frontend` // starts client
+- `yarn redis` // starts local redis server
 - Deployed at [Wallet Web App](https://wallet-82c94.web.app/)
-- Create a test account
 
 ### Prerequisites
 
@@ -64,15 +69,13 @@ You can filter credit card transaction data based on certain data points.
 
 ### Local installation
 
-[Insert instructions for local installation]
-- `yarn dev` // starts server
-- `yarn emu` // starts firebase authentication emulators
-- `yarn frontend` // starts client
-- `yarn redis` // starts local redis server
+- `yarn install` // Installs server
+- `cd frontend && yarn install` // Installs the client
 
 ## Deployment
 
 - Using redis cloud so already deployed and working.
+- [Wallet](https://wallet-82c94.web.app/)
 
 ### Heroku
 
