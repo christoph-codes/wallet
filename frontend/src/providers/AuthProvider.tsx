@@ -109,7 +109,7 @@ const AuthProvider = ({ children }: IAuthProvider) => {
 				});
 			}
 		});
-	}, [user.authId]);
+	}, [user?.authId]);
 
 	useEffect(() => {
 		setWithExpiry("wallet_user", user, 3600000);
