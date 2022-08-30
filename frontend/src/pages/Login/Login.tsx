@@ -1,6 +1,10 @@
 import { ChangeEvent, useState } from "react";
+import { Navigate } from "react-router-dom";
+import Button from "../../components/Button";
+import Input from "../../components/Input";
 import { useAuth } from "../../providers/AuthProvider";
 import Page from "../../templates/Page";
+import "./Login.scss";
 
 const Login = () => {
 	const { login, user } = useAuth();
@@ -17,22 +21,35 @@ const Login = () => {
 			e.target.reset();
 		}
 	};
+
+	if (user?.authId !== "") {
+		return <Navigate to="/dashboard" />;
+	}
+
 	return (
-		<Page className="Login">
-			{!user?.authId ? (
-				<form onSubmit={submitLogin}>
-					{error && <p>{error}</p>}
-					<input name="email" placeholder="john@doe.com" />
-					<input
-						name="password"
-						type="password"
-						placeholder="john@doe.com"
-					/>
-					<button type="submit">Login</button>
-				</form>
-			) : (
-				<a href="/dashboard">Head to Dashboard</a>
-			)}
+		<Page>
+			<div className="Login">
+				{!user?.authId ? (
+					<form onSubmit={submitLogin}>
+						<h2>Login</h2>
+						{error && <p>{error}</p>}
+						<Input
+							label="Email"
+							name="email"
+							placeholder="john@doe.com"
+						/>
+						<Input
+							label="Password"
+							name="password"
+							type="password"
+							placeholder="john@doe.com"
+						/>
+						<Button type="submit">Login</Button>
+					</form>
+				) : (
+					<Navigate to="/dashboard" />
+				)}
+			</div>
 		</Page>
 	);
 };
