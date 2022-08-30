@@ -22,7 +22,7 @@ const Login = () => {
 		}
 	};
 
-	if (user?.authId !== "") {
+	if (user?.authId) {
 		return <Navigate to="/dashboard" />;
 	}
 
