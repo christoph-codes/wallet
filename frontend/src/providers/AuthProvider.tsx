@@ -105,7 +105,7 @@ const AuthProvider = ({ children }: IAuthProvider) => {
 				});
 			}
 		});
-	}, []);
+	}, [user.authId]);
 
 	useEffect(() => {
 		setWithExpiry("wallet_user", user, 3600000);
@@ -125,7 +125,7 @@ const AuthProvider = ({ children }: IAuthProvider) => {
 						.then((user) => {
 							if (user) {
 								setUser(user.data[0]);
-								navigate("/dashboard");
+								return { success: user.data[0] };
 							} else {
 								setUser({
 									fname: "",
@@ -135,11 +135,11 @@ const AuthProvider = ({ children }: IAuthProvider) => {
 									cards: [],
 									entityId: "",
 								});
-								throw new Error("What happened?");
+								return { error: "No user found" };
 							}
 						})
 						.catch((err) => {
-							console.log("err", err);
+							return { error: err };
 						});
 				} else {
 					setUser({
@@ -150,7 +150,9 @@ const AuthProvider = ({ children }: IAuthProvider) => {
 						cards: [],
 						entityId: "",
 					});
-					throw new Error("There is no user with this account info.");
+					return {
+						error: "There is no user with this account info.",
+					};
 				}
 			})
 			.catch((err) => {
@@ -162,7 +164,7 @@ const AuthProvider = ({ children }: IAuthProvider) => {
 					cards: [],
 					entityId: "",
 				});
-				throw new Error(err);
+				return { error: err };
 			});
 	};
 
