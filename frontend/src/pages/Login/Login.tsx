@@ -16,9 +16,15 @@ const Login = () => {
 		if (!formData.email || !formData.password) {
 			setError("You must fill out all required fields.");
 		} else {
-			login && login(formData.email, formData.password);
 			setError("");
-			e.target.reset();
+			const response: any =
+				login && login(formData.email, formData.password);
+			if (response?.error) {
+				setError(response.error);
+			} else {
+				console.log("response", response);
+				// e.target.reset();
+			}
 		}
 	};
 
