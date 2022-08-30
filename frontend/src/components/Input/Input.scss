@@ -1,9 +1,10 @@
 @use '../../assets/styles/colors' as *;
 .Input {
-	margin-bottom: 1.5rem;
+	margin-bottom: 1rem;
 	display: flex;
 	flex-direction: column-reverse;
 	width: 100%;
+	text-align: left;
 	span {
 		margin-bottom: 0.5rem;
 		font-weight: bold;
