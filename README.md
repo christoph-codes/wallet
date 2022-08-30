@@ -14,8 +14,6 @@ A personal credit card wallet for the DEV Redis Hackathon. August 2022
 
 <img width="1438" alt="Screen Shot 2022-08-29 at 8 45 41 PM" src="https://user-images.githubusercontent.com/54452490/187353331-2b7a6151-e74f-4ac9-9eb5-066e23d12c54.png">
 
-[Insert app screenshots](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax#uploading-assets)
-
 ## How it works
 
 You create an account with a username and password which writes to Firebases authentication server.
