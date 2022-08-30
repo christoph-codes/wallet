@@ -32,7 +32,9 @@ export interface IUser {
 
 export interface IAuthContext {
 	createAccount?: (user: ICreateAccountArgs) => void;
+	createAccountError?: string;
 	login?: (email: string, password: string) => void;
+	loginError?: string;
 	logout?: () => void;
 	user?: IUser;
 }
@@ -42,7 +44,9 @@ export interface IAuthProvider {
 
 const AuthContext = createContext<IAuthContext>({
 	createAccount: () => {},
+	createAccountError: "",
 	login: () => {},
+	loginError: "",
 	logout: () => {},
 	user: {
 		fname: "",
@@ -111,6 +115,8 @@ const AuthProvider = ({ children }: IAuthProvider) => {
 		setWithExpiry("wallet_user", user, 3600000);
 	}, [user]);
 
+	const [loginError, setLoginError] = useState("");
+
 	/**
 	 * ### Login Function
 	 * A function that takes in a email and password that queries Firebase authentication for their account
@@ -118,6 +124,7 @@ const AuthProvider = ({ children }: IAuthProvider) => {
 	 * @param password a secret `string` that is associated with the users account
 	 */
 	const login = (email: string, password: string) => {
+		setLoginError("");
 		signInWithEmailAndPassword(auth, email, password)
 			.then((firebaseUser) => {
 				if (firebaseUser) {
@@ -135,11 +142,11 @@ const AuthProvider = ({ children }: IAuthProvider) => {
 									cards: [],
 									entityId: "",
 								});
-								return { error: "No user found" };
+								setLoginError("No user found");
 							}
 						})
 						.catch((err) => {
-							return { error: err };
+							setLoginError(err);
 						});
 				} else {
 					setUser({
@@ -150,9 +157,7 @@ const AuthProvider = ({ children }: IAuthProvider) => {
 						cards: [],
 						entityId: "",
 					});
-					return {
-						error: "There is no user with this account info.",
-					};
+					setLoginError("There is no user with this account info.");
 				}
 			})
 			.catch((err) => {
@@ -164,11 +169,14 @@ const AuthProvider = ({ children }: IAuthProvider) => {
 					cards: [],
 					entityId: "",
 				});
-				return { error: err };
+				setLoginError(err.message);
 			});
 	};
 
+	const [createAccountError, setCreateAccountError] = useState("");
+
 	const createAccount = (user: ICreateAccountArgs) => {
+		setCreateAccountError("");
 		const { fname, lname, email, password } = user;
 		if (!fname || !lname || !email || !password) {
 			throw new Error(
@@ -194,12 +202,13 @@ const AuthProvider = ({ children }: IAuthProvider) => {
 					})
 					.catch((err) => {
 						console.log("failed db user create", err.code);
-						throw new Error(err);
+						setCreateAccountError(err);
 					});
 			})
 			.catch((error) => {
 				console.log("firebase create account error", error);
-				throw new Error(error);
+				setCreateAccountError(error.message);
+				// throw new Error(error);
 			});
 	};
 
@@ -223,7 +232,16 @@ const AuthProvider = ({ children }: IAuthProvider) => {
 	};
 
 	return (
-		<AuthContext.Provider value={{ user, login, createAccount, logout }}>
+		<AuthContext.Provider
+			value={{
+				user,
+				login,
+				createAccount,
+				logout,
+				createAccountError,
+				loginError,
+			}}
+		>
 			{children}
 		</AuthContext.Provider>
 	);

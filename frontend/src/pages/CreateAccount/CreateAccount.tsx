@@ -7,7 +7,7 @@ import Page from "../../templates/Page";
 import "./CreateAccount.scss";
 
 const CreateAccount = () => {
-	const { createAccount, user } = useAuth();
+	const { createAccount, user, createAccountError } = useAuth();
 	const [error, setError] = useState("");
 	const submitCreateAccount = (e: ChangeEvent<HTMLFormElement>) => {
 		e.preventDefault();
@@ -28,6 +28,7 @@ const CreateAccount = () => {
 					<form onSubmit={submitCreateAccount}>
 						<h2>Create Account</h2>
 						{error && <p>{error}</p>}
+						{createAccountError && <p>{createAccountError}</p>}
 						<Input
 							label="First Name"
 							type="text"

@@ -7,7 +7,7 @@ import Page from "../../templates/Page";
 import "./Login.scss";
 
 const Login = () => {
-	const { login, user } = useAuth();
+	const { login, user, loginError } = useAuth();
 	const [error, setError] = useState("");
 	const submitLogin = (e: ChangeEvent<HTMLFormElement>) => {
 		e.preventDefault();
@@ -39,6 +39,7 @@ const Login = () => {
 					<form onSubmit={submitLogin}>
 						<h2>Login</h2>
 						{error && <p>{error}</p>}
+						{loginError && <p>{loginError}</p>}
 						<Input
 							label="Email"
 							name="email"
